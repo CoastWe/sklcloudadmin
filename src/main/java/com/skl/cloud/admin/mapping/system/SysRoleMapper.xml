@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skl.cloud.admin.dao.system.SysRoleMapper">
+
+	<resultMap id="sysUserResultMap" type="com.skl.cloud.admin.model.system.SysRole">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="resource_ids" property="resourceIdsStr"
+			jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_user_id" property="createUserId"
+			jdbcType="BIGINT" />
+		<result column="priority" property="priority" jdbcType="INTEGER" />
+		<result column="available" property="available" jdbcType="BOOLEAN" />
+	</resultMap>
+
+	<insert id="insert" parameterType="com.skl.cloud.admin.model.system.SysRole"
+		useGeneratedKeys="true">
+		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+			select
+			get_uuid_short() as id
+		</selectKey>
+    <![CDATA[ 
+        INSERT INTO t_admin_sys_role(
+        	id,
+	        role_name,
+	        description,
+	        resource_ids,
+	        parent_id,
+	        create_time, 
+	        priority,       
+	        create_user_id,
+	        available)
+	    values(
+	    	#{id},
+	        #{roleName},
+	        #{description},
+	        #{resourceIdsStr},
+	        #{parentId},
+	        #{createTime},
+	        #{priority},
+	        #{createUserId},
+	        #{available}
+	        ) 
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.skl.cloud.admin.model.system.SysRole">
+		UPDATE t_admin_sys_role
+		<set>
+			<if test="description !=null ">
+				description = #{description},
+			</if>
+			<if test="resourceIdsStr !=null ">
+				resource_ids = #{resourceIdsStr},
+			</if>
+			<if test="parentId !=null ">
+				parent_id = #{parentId},
+			</if>
+			<if test="createTime !=null ">
+				create_time = #{createTime},
+			</if>
+			<if test="priority !=null ">
+				priority = #{priority},
+			</if>
+			<if test="createTime !=null ">
+				create_time = #{createTime},
+			</if>
+			<if test="createUserId !=null ">
+				create_user_id = #{createUserId},
+			</if>
+			<if test="available !=null ">
+				available = #{available},
+			</if>
+
+		</set>
+		<where>
+			<if test="id !=null ">
+				AND id = #{id}
+			</if>
+			<if test="roleName !=null ">
+				AND role_name = #{roleName}
+			</if>
+			<if test="parentId !=null ">
+				AND parent_id = #{parentId}
+			</if>
+		</where>
+	</update>
+
+	<update id="updateAllAttributes" parameterType="com.skl.cloud.admin.model.system.SysRole">
+		UPDATE t_admin_sys_role
+		<set>
+			description = #{description},
+			resource_ids = #{resourceIdsStr},
+			parent_id = #{parentId},
+			create_time = #{createTime},
+			priority =
+			#{priority},
+			create_time = #{createTime},
+			create_user_id =
+			#{createUserId},
+			available = #{available}
+		</set>
+		<where>
+			<if test="id !=null ">
+				AND id = #{id}
+			</if>
+			<if test="roleName !=null ">
+				AND role_name = #{roleName}
+			</if>
+			<if test="parentId !=null ">
+				AND parent_id = #{parentId}
+			</if>
+		</where>
+	</update>
+
+	<!-- delete user by primary key (user_id) -->
+	<delete id="delete" parameterType="long">
+    <![CDATA[
+        DELETE FROM t_admin_sys_role WHERE id = #{0}
+    ]]>
+	</delete>
+
+	<select id="getOne" parameterType="com.skl.cloud.admin.model.system.SysRole"
+		resultMap="sysUserResultMap">
+    <![CDATA[
+        SELECT
+            *
+        FROM
+            t_admin_sys_role
+      ]]>
+		<where>
+			<if test="id !=null ">
+				AND id = #{id}
+			</if>
+			<if test="roleName !=null ">
+				AND role_name = #{roleName}
+			</if>
+			<if test="parentId !=null ">
+				AND parent_id = #{parentId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getAll" resultMap="sysUserResultMap">
+		select * from t_admin_sys_role 
+	</select>
+</mapper>

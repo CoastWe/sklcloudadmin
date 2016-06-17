@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.skl.cloud.admin.dao.system.SysResourceMapper">
+
+	<resultMap type="com.skl.cloud.admin.model.system.SysResource"
+		id="sysResourceResultMap">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="BIGINT" />
+		<result column="priority" property="priority" jdbcType="INTEGER" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="parent_ids" property="parentIds" jdbcType="VARCHAR" />
+		<result column="permission" property="permission" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="available" property="available" jdbcType="BOOLEAN" />
+		<result column="type" property="type" jdbcType="VARCHAR"
+			typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+	</resultMap>
+
+	<insert id="insert" parameterType="com.skl.cloud.admin.model.system.SysResource"
+		useGeneratedKeys="true">
+		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+			select
+			get_uuid_short() as id
+		</selectKey>
+    <![CDATA[ 
+        INSERT INTO t_admin_sys_resource(
+        	id,
+	        name,
+	        url,
+	        parent_id,
+	        priority,
+	        level,
+	        parent_ids, 
+	        permission,       
+	        create_time,
+	        available,
+	        type)
+	    values(
+	    	#{id},
+	        #{name},
+	        #{url},
+	        #{parentId},
+	        #{priority},
+	        #{level},
+	        #{parentIds},
+	        #{permission},
+	        #{createTime},
+	        #{available},
+	        #{type,typeHandler=org.apache.ibatis.type.EnumTypeHandler}
+	        ) 
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.skl.cloud.admin.model.system.SysResource">
+		UPDATE t_admin_sys_resource
+		<set>
+			<if test="name !=null ">
+				name = #{name},
+			</if>
+			<if test="url !=null ">
+				url = #{url},
+			</if>
+			<if test="parentId !=null ">
+				parent_id = #{parentId},
+			</if>
+			<if test="priority !=null ">
+				priority = #{priority},
+			</if>
+			<if test="level !=null ">
+				level = #{level},
+			</if>
+			<if test="parentIds !=null ">
+				parent_ids = #{parentIds},
+			</if>
+			<if test="createTime !=null ">
+				create_time = #{createTime},
+			</if>
+			<if test="permission !=null ">
+				permission = #{permission},
+			</if>
+			<if test="available !=null ">
+				available = #{available},
+			</if>
+			<if test="type !=null ">
+				type =
+				#{type,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+			</if>
+
+		</set>
+		<where>
+			<if test="id !=null ">
+				AND id = #{id}
+			</if>
+		</where>
+	</update>
+
+
+	<update id="updateAllAttributes" parameterType="com.skl.cloud.admin.model.system.SysRole">
+		UPDATE t_admin_sys_resource
+		<set>
+			name = #{name},
+			url = #{url},
+			parent_id = #{parentId},
+			priority =
+			#{priority},
+			level = #{level},
+			parent_ids = #{parentIds},
+			create_time =
+			#{createTime},
+			permission = #{permission},
+			available = #{available},
+			type = #{type,typeHandler=org.apache.ibatis.type.EnumTypeHandler}
+		</set>
+		<where>
+			<if test="id !=null ">
+				AND id = #{id}
+			</if>
+		</where>
+	</update>
+	<!-- delete user by primary key (user_id) -->
+	<delete id="delete" parameterType="long">
+    <![CDATA[
+        DELETE FROM t_admin_sys_resource WHERE id = #{0}
+    ]]>
+	</delete>
+
+	<select id="getOne" parameterType="com.skl.cloud.admin.model.system.SysResource"
+		resultMap="sysResourceResultMap">
+    <![CDATA[
+        SELECT
+            *
+        FROM
+            t_admin_sys_resource
+      ]]>
+		<where>
+			<if test="id !=null ">
+				AND id = #{id}
+			</if>
+		</where>
+	</select>
+
+	<select id="getAll" resultMap="sysResourceResultMap">
+		select * from t_admin_sys_resource
+		order by level asc,priority ASC
+	</select>
+
+</mapper>

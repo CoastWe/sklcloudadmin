@@ -1,0 +1,39 @@
+
+body {
+    margin-top: 120px;
+    background-color: #222;
+}
+
+iframe{
+	background-color: #fff;
+}
+
+@media(min-width:768px) {
+    body {
+        margin-top: 51px;
+    }
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus {
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #080808;
+}
+
+.sidebar ul li{
+    color:#999;
+    border-bottom: 1px solid #222;
+}
+
+.sidebar ul li a {
+    color:#999;
+    border-bottom: 1px solid #222;
+}
+
+
+.sidebar ul li a.active {
+    color: #ffffff;
+    background-color: #080808;
+}
+
