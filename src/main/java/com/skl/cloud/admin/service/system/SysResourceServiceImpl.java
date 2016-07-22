@@ -31,8 +31,8 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResource> impleme
 	public Set<String> findPermissions(Set<Long> resourceIds) {
 		// TODO Auto-generated method stub
         Set<String> permissions = new HashSet<String>();
-        for(Long resourceId : resourceIds) {
-            SysResource resource = findOneById(resourceId);
+        List<SysResource> list = findAllByIds(resourceIds);
+        for(SysResource resource : list) {
             if(resource != null && !StringUtils.isEmpty(resource.getPermission())) {
                 permissions.add(resource.getPermission());
             }
@@ -79,5 +79,17 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResource> impleme
         }
         return false;
     }
+
+	@Override
+	public Boolean isExistsResourceName(String resourceName) {
+		// TODO Auto-generated method stub
+		SysResource resource = new SysResource();
+		resource.setName(resourceName);
+		if(super.findOne(resource)!=null){
+			return Boolean.TRUE;
+		}else{
+			return Boolean.FALSE;
+		}
+	}
 
 }

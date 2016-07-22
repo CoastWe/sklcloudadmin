@@ -143,7 +143,14 @@
 
 	<select id="getAll" resultMap="sysResourceResultMap">
 		select * from t_admin_sys_resource
-		order by level asc,priority ASC
+		order by concat(parent_ids, id)
 	</select>
-
+	
+	<select id="getAllInIds" resultMap="sysResourceResultMap">
+		select * from t_admin_sys_resource where id in
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+	
 </mapper>

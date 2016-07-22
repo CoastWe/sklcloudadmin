@@ -70,4 +70,18 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         }
         return roleService.findPermissions(user.getRoleIds().toArray(new Long[0]));
 	}
+
+
+	@Override
+	public Boolean isExistsUserName(String name) {
+		// TODO Auto-generated method stub
+		SysUser user = new SysUser();
+		user.setUsername(name);
+		super.findOne(user);
+		if(super.findOne(user)!=null){
+			return Boolean.TRUE;
+		}else{
+			return Boolean.FALSE;
+		}		
+	}
 }

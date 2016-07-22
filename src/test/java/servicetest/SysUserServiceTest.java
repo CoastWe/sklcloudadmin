@@ -19,9 +19,9 @@ public class SysUserServiceTest extends BaseTest{
 	@Test
 	public void testInsert(){
 		SysUser user = new SysUser();
-		user.setUsername("adminsb");
+		user.setUsername("admin123");
 		user.setPassword("123456");
-		user.setNickName("nihao111v");
+		user.setNickName("niha");
 		user.setCreateTime(new Date());
 		user.setLastLoginTime(new Date());
 		user.setLoginTime(new Date());

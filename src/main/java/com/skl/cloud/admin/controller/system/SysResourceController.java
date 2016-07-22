@@ -1,5 +1,7 @@
 package com.skl.cloud.admin.controller.system;
 
+import java.util.Date;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +41,7 @@ public class SysResourceController {
 	        SysResource child = new SysResource();
 	        child.setParentId(parentId);
 	        child.setParentIds(parent.makeSelfAsParentIds());
+	        child.setLevel(parent.getLevel()+1);
 	        model.addAttribute("resource", child);
 	        model.addAttribute("op", "新增子节点");
 	        return "resource/edit";
@@ -49,7 +52,7 @@ public class SysResourceController {
 	    public String create(SysResource resource, RedirectAttributes redirectAttributes) {
 	        resourceService.create(resource);
 	        redirectAttributes.addFlashAttribute("msg", "新增子节点成功");
-	        return "redirect:/resource";
+	        return "redirect:/resource/list";
 	    }
 
 	    @RequiresPermissions("system:resource:update")
@@ -63,9 +66,10 @@ public class SysResourceController {
 	    @RequiresPermissions("system:resource:update")
 	    @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
 	    public String update(SysResource resource, RedirectAttributes redirectAttributes) {
+	    	resource.setCreateTime(new Date());
 	        resourceService.update(resource);
 	        redirectAttributes.addFlashAttribute("msg", "修改成功");
-	        return "redirect:/resource";
+	        return "redirect:/resource/list";
 	    }
 
 	    @RequiresPermissions("system:resource:delete")
@@ -73,6 +77,6 @@ public class SysResourceController {
 	    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
 	        resourceService.delete(id);
 	        redirectAttributes.addFlashAttribute("msg", "删除成功");
-	        return "redirect:/resource";
+	        return "redirect:/resource/list";
 	    }
 }

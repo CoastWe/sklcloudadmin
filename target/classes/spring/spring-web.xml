@@ -20,6 +20,17 @@
 	<mvc:default-servlet-handler />
 	<mvc:resources mapping="/static/**" location="/WEB-INF/static/"/>
 	<context:component-scan base-package="com.skl.cloud.admin.controller"></context:component-scan>
+	<bean id="" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="favorPathExtension" value="true"></property>
+		<property name="parameterName" value="false"></property>
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json"></entry>
+			</map>
+		</property>
+
+	</bean>
+	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"

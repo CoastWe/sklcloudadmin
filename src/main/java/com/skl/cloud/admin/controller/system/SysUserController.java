@@ -1,5 +1,7 @@
 package com.skl.cloud.admin.controller.system;
 
+import java.util.Date;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.skl.cloud.admin.model.system.SysUser;
@@ -22,6 +25,14 @@ public class SysUserController {
     private SysRoleService sysRoleService;
     
     @RequiresPermissions("system:user:create")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(Model model) {
+        setCommonData(model);
+        model.addAttribute("userList", sysUserService.findAll());
+        return "user/list";
+    }
+    
+    @RequiresPermissions("system:user:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String showCreateForm(Model model) {
         setCommonData(model);
@@ -35,7 +46,7 @@ public class SysUserController {
     public String create(SysUser user, RedirectAttributes redirectAttributes) {
         sysUserService.create(user);
         redirectAttributes.addFlashAttribute("msg", "新增成功");
-        return "redirect:/user";
+        return "redirect:/user/list";
     }
 
     @RequiresPermissions("system:user:update")
@@ -50,9 +61,10 @@ public class SysUserController {
     @RequiresPermissions("system:user:update")
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public String update(SysUser user, RedirectAttributes redirectAttributes) {
+    	user.setCreateTime(new Date());
         sysUserService.update(user);
         redirectAttributes.addFlashAttribute("msg", "修改成功");
-        return "redirect:/user";
+        return "redirect:/user/list";
     }
 
     @RequiresPermissions("system:user:delete")
@@ -69,7 +81,7 @@ public class SysUserController {
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         sysUserService.delete(id);
         redirectAttributes.addFlashAttribute("msg", "删除成功");
-        return "redirect:/user";
+        return "redirect:/user/list";
     }
 
 
@@ -86,7 +98,14 @@ public class SysUserController {
     public String changePassword(@PathVariable("id") Long id, String newPassword, RedirectAttributes redirectAttributes) {
         sysUserService.changePassword(id, newPassword);
         redirectAttributes.addFlashAttribute("msg", "修改密码成功");
-        return "redirect:/user";
+        return "redirect:/user/list";
+    }
+    
+    @RequestMapping(value = "/isExists/username", method = RequestMethod.POST)
+    @ResponseBody
+    public String isExists(String name,Model model) {
+        Boolean is = sysUserService.isExistsUserName(name);
+        return "redirect:/user/list";
     }
 
     private void setCommonData(Model model) {

@@ -105,7 +105,7 @@
 		</set>
 		<where>
 			<if test="id !=null ">
-				AND user_id = #{id}
+				AND id = #{id}
 			</if>
 			<if test="username !=null ">
 				AND username = #{username}
@@ -131,7 +131,7 @@
 		</set>
 		<where>
 			<if test="id !=null ">
-				AND user_id = #{id}
+				AND id = #{id}
 			</if>
 			<if test="username !=null ">
 				AND username = #{username}

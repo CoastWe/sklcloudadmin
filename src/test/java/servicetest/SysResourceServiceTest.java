@@ -1,7 +1,9 @@
 package servicetest;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +57,24 @@ public class SysResourceServiceTest extends BaseTest{
 	public void testGetALL(){
 		List<SysResource> list = sysUserService.findAll();
 		System.out.println(list);
+	}
+	@Test
+	public void testGetALLByIds(){
+		Set<Long> set = new HashSet<Long>();
+		set.add(22l);
+		set.add(23l);
+		set.add(24l);
+		set.add(25l);
+		;
+		System.out.println(sysUserService.findAllByIds(set));
+	}
+	
+	@Test
+	public void testGetALLLimit(){
+		List<SysResource> list = sysUserService.findAll(-1, 5);
+		for (SysResource sysResource : list) {
+			System.out.println(sysResource);
+		}
+		System.out.println("111111"+list);
 	}
 }

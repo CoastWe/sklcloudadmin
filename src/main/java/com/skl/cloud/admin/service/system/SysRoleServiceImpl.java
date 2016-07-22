@@ -1,6 +1,8 @@
 package com.skl.cloud.admin.service.system;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,10 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 	public Set<String> findRoles(Long... roleIds) {
 		// TODO Auto-generated method stub
         Set<String> roles = new HashSet<String>();
-        for(Long roleId : roleIds) {
-            SysRole role = findOneById(roleId);
+        Set<Long> ids = new HashSet<Long>();
+        Collections.addAll(ids, roleIds);
+        List<SysRole> list = findAllByIds(ids);
+        for(SysRole role : list) {
             if(role != null) {
                 roles.add(role.getRoleName());
             }
@@ -40,8 +44,10 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 	public Set<String> findPermissions(Long[] roleIds) {
 		// TODO Auto-generated method stub
         Set<Long> resourceIds = new HashSet<Long>();
-        for(Long roleId : roleIds) {
-            SysRole role = findOneById(roleId);
+        Set<Long> ids = new HashSet<Long>();
+        Collections.addAll(ids, roleIds);
+        List<SysRole> list = findAllByIds(ids);
+        for(SysRole role : list) {
             if(role != null) {
                 resourceIds.addAll(role.getResourceIds());
             }

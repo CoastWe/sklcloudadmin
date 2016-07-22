@@ -1,6 +1,7 @@
 package com.skl.cloud.admin.dao.common;
 
 import java.util.List;
+import java.util.Set;
 
 import com.skl.cloud.admin.model.common.IdEntity;
 
@@ -44,4 +45,11 @@ public interface BaseMapper <T extends IdEntity>{
      * @return
      */
     public List<T> getAllByPage(Integer limit,Integer count);
+    
+    /**
+     * 获取相关ids的实体
+     * @param ids
+     * @return
+     */
+	public List<T> getAllInIds(List<Long> ids);
 }

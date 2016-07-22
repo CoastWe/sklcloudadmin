@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.skl.cloud.admin.dao.system.SysRoleMapper">
 
-	<resultMap id="sysUserResultMap" type="com.skl.cloud.admin.model.system.SysRole">
+	<resultMap id="sysRoleResultMap" type="com.skl.cloud.admin.model.system.SysRole">
 		<id column="id" property="id" jdbcType="BIGINT" />
 		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
 		<result column="description" property="description" jdbcType="VARCHAR" />
@@ -124,7 +124,7 @@
 	</delete>
 
 	<select id="getOne" parameterType="com.skl.cloud.admin.model.system.SysRole"
-		resultMap="sysUserResultMap">
+		resultMap="sysRoleResultMap">
     <![CDATA[
         SELECT
             *
@@ -144,7 +144,15 @@
 		</where>
 	</select>
 	
-	<select id="getAll" resultMap="sysUserResultMap">
+	<select id="getAll" resultMap="sysRoleResultMap">
 		select * from t_admin_sys_role 
 	</select>
+	
+	<select id="getAllInIds" resultMap="sysRoleResultMap">
+		select * from t_admin_sys_role where id in
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+	
 </mapper>

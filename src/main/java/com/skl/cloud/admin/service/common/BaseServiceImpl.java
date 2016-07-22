@@ -2,12 +2,16 @@ package com.skl.cloud.admin.service.common;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.skl.cloud.admin.dao.common.BaseMapper;
 import com.skl.cloud.admin.model.common.IdEntity;
 
@@ -98,9 +102,26 @@ public class BaseServiceImpl<T extends IdEntity> implements BaseService<T>{
 
 	@Override
 	@Transactional(readOnly=true)
-	public List<T> findAll(Integer limit, Integer count) {
+	public List<T> findAll(Integer pageNum, Integer pageSize) {
 		// TODO Auto-generated method stub
-		return baseMapper.getAllByPage(limit, count);
+		PageHelper.startPage(pageNum, pageSize);
+		List<T> list = findAll();
+		log.info("list is {}",list.size());
+		PageInfo<T> page = new PageInfo<T>(list);
+		log.info("pageInfo is {}",page);
+		return list;
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<T> findAllByIds(Set<Long> ids) {
+		// TODO Auto-generated method stub
+		if(ids== null ||ids.size()<=0){
+			log.warn("ids的参数位空{}",ids);
+			return new ArrayList<T>();
+		}
+		List<Long> list = new ArrayList<Long>(ids);
+		return baseMapper.getAllInIds(list);
 	}
 
 }

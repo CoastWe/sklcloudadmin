@@ -1,6 +1,7 @@
 package com.skl.cloud.admin.service.common;
 
 import java.util.List;
+import java.util.Set;
 
 import com.skl.cloud.admin.model.common.IdEntity;
 
@@ -37,17 +38,29 @@ public interface BaseService <T extends IdEntity>{
      * @param id
      * @return
      */
-    public T findOneById(Long id);
+    public T findOneById(Long id);    
+    /**
+     * 批量获取相关id的实体
+     * @param id
+     * @return
+     */
+    public List<T> findAllByIds(Set<Long> ids);
     /**
      * 获取所有实体
      * @return
      */
     public List<T> findAll();
+    
+    
     /**
-     * 分页获取实体
-     * @param limit
-     * @param count
+     * TODO(分页查询数据)
+     * <p>Creation Date: 2016年6月21日 and by Author: weibin </p>
+     * @param pageNum
+     * @param pageSize
      * @return
+     * @return List<T>
+     * @throws
+     *
      */
-    public List<T> findAll(Integer limit,Integer count);
+    public List<T> findAll(Integer pageNum, Integer pageSize);
 }
